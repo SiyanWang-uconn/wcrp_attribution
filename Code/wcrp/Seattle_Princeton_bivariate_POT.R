@@ -1,9 +1,10 @@
 # Seattle-Princeton nonstationary bivariate POT: default model.
-# Run sections interactively in RStudio. No figures or output files are created.
+# Run sections interactively in RStudio. Saves numerical CSV results only; no figures.
 # Station rates vary with GMST; GPD scales, shapes and dependence are constant.
 
 # ---- 1. Configuration ----
 project_root <- "C:/Users/siyan/WCRP/wcrp_common_attribution_assessment"
+output_dir <- file.path(project_root, "Results/Seattle_Princeton_bivariate")
 source(file.path(project_root, "Code/wcrp/bivariate_pot_gmst.R"))
 paired_file <- file.path(project_root, "Results/Seattle_Princeton_bivariate",
                          "paired_3day_JJA_windows.csv")
@@ -109,3 +110,37 @@ stopifnot(all(is.finite(attribution$PR)),
 attribution
 # Point estimates only. No confidence intervals have been calculated.
 # Constant dependence does not imply constant conditional probabilities.
+# ---- 6. Save numerical results ----
+# Probabilities are fractions, not percentages. PR compares 2021 to 1951-like GMST.
+# These files contain point estimates only, not confidence intervals.
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+attribution$target_A_C <- target[1]
+attribution$target_B_C <- target[2]
+attribution$threshold_A_C <- threshold[1]
+attribution$threshold_B_C <- threshold[2]
+attribution$probability_unit <- "per_common_3day_JJA_window"
+attribution$uncertainty <- "point_estimates_only"
+fit_summary <- cbind(data_summary, model_summary)
+fit_summary$rate_gmst_A <- rate_gmst[1]
+fit_summary$rate_gmst_B <- rate_gmst[2]
+fit_summary$scale_gmst_A <- scale_gmst[1]
+fit_summary$scale_gmst_B <- scale_gmst[2]
+fit_summary$event_window_start <- as.character(event_start)
+fit_summary$factual_year <- factual_year
+fit_summary$reference_year <- reference_year
+fit_summary$factual_gmst <- factual_gmst
+fit_summary$reference_gmst <- reference_gmst
+fit_summary$convergence <- fit$convergence
+write.csv(attribution,
+  file.path(output_dir, "POT_attribution_2021_vs_1951like.csv"), row.names = FALSE)
+write.csv(parameter_table,
+  file.path(output_dir, "POT_parameters.csv"), row.names = FALSE)
+write.csv(fit_summary,
+  file.path(output_dir, "POT_model_summary.csv"), row.names = FALSE)
+# Verify that the saved values match the fitted results.
+saved_attribution <- read.csv(file.path(output_dir, "POT_attribution_2021_vs_1951like.csv"))
+stopifnot(nrow(saved_attribution) == nrow(attribution),
+  isTRUE(all.equal(saved_attribution$PR, attribution$PR, tolerance = 1e-12)),
+  isTRUE(all.equal(saved_attribution$p_factual, attribution$p_factual, tolerance = 1e-12)),
+  isTRUE(all.equal(saved_attribution$p_reference, attribution$p_reference, tolerance = 1e-12)))
+cat("Saved attribution, parameters and model summary to:", output_dir, "\n")
