@@ -1,0 +1,3 @@
+"station_id","station","baseline_start","baseline_end","percentile","threshold_C","paired_baseline_windows","window_days"
+"USW00024233","Seattle-Tacoma Airport",1961,1990,0.95,29.8,2700,3
+"CAN01126510","Princeton A, BC",1961,1990,0.95,33.3683333333333,2700,3

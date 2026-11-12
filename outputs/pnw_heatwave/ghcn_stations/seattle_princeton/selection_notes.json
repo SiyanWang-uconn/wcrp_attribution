@@ -1,0 +1,12 @@
+{
+  "station_ids": [
+    "USW00024233",
+    "CAN01126510"
+  ],
+  "end_year": 2025,
+  "common_start_year": 1948,
+  "selection": "Seattle-Tacoma and Princeton Airport, explicitly selected by user",
+  "export_period": "Earliest QC-valid observation through end year for each station",
+  "restriction": "Only previously downloaded stations within 45-52 N, 123-119 W",
+  "daily_calendar": "Full calendar; absent source dates added as missing, no interpolation"
+}

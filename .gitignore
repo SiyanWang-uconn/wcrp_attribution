@@ -1,0 +1,25 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.ruff_cache/
+
+# Private notebooks
+_*.ipynb
+_netrc
+
+# raw data
+*_cache*/
+*raw*/
+
+pakistan_rainfall/
+
+source/
+
+*station_daily_tmax*

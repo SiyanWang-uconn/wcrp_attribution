@@ -1,0 +1,20 @@
+{
+  "source_url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily",
+  "execution_date": "2026-11-11",
+  "ghcnd_version": "The current version of GHCN Daily is 3.35-upd-2026110917 (i.e, an update that started at 2026110917 [yyyymmddhh] UTC; yyyy=year; mm=month; dd=day; hh=hour),\ncreated by appending recently available data updates to the last fully reprocessed version: 3.35-por-2026103023.",
+  "latitude_bounds": [
+    45.0,
+    52.0
+  ],
+  "longitude_bounds": [
+    -123.0,
+    -119.0
+  ],
+  "start_year": 1979,
+  "end_year": 2025,
+  "station_count": 591,
+  "selection": "TMAX inventory overlaps requested years; no completeness filter",
+  "cached_source_policy": "Existing files reused; may predate execution date",
+  "daily_table": "Only days in source TMAX monthly records; absent months omitted",
+  "quality_policy": "Nonblank quality flags excluded from tmax_C; reported values kept"
+}

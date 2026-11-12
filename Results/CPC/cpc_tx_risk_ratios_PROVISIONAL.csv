@@ -1,0 +1,2 @@
+"reference","delta_G","return_period","gmst_factual","threshold_C","p_factual","p_counterfactual","log_RR","RR","FAR","intensity_change","season","n_years"
+"1951-like",1.01875,286.227867942882,0.932291666666667,39.9728851318359,0.00349371990640532,1.65179953197372e-06,7.65685700426381,2115.09922286435,0.999527208941694,4.31625645431944,"Annual",41

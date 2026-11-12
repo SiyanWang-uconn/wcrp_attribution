@@ -1,0 +1,2 @@
+"season","n_summers","temperature_threshold_C","base_temperature_C","conditional_quantile","run_days","n_events","score_threshold_C_days","n_events_used","event_score_C_days"
+"May15-Sep15",86,32.8605717954007,30,0.9,3,15,0,15,21.7896578888905
