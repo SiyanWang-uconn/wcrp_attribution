@@ -10,6 +10,16 @@ wheels/
 .venv
 .ruff_cache/
 
+# Local R and RStudio session state
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# Share only the Markdown report in the Smith documentation directory
+/Code/smith_reproduce/documentation/*
+!/Code/smith_reproduce/documentation/Smith_POT_MLE_Reproduction_Theory_and_Results.md
+
 # Private notebooks
 _*.ipynb
 _netrc
@@ -23,3 +33,9 @@ pakistan_rainfall/
 source/
 
 *station_daily_tmax*
+
+# Previous WCAA code
+previous_EU_heatwave/
+
+# Results
+Results/
