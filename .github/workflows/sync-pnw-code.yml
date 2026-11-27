@@ -20,10 +20,10 @@ jobs:
     steps:
       - name: Check deploy key configuration
         env:
-          SYNC_DEPLOY_KEY: ${{ secrets.PNW_CODE_SYNC_DEPLOY_KEY }}
+          SYNC_DEPLOY_KEY: ${{ secrets.SYNC_TO_EEA }}
         run: |
           if [[ -z "$SYNC_DEPLOY_KEY" ]]; then
-            echo '::error::Configure the PNW_CODE_SYNC_DEPLOY_KEY repository secret.'
+            echo '::error::Configure the SYNC_TO_EEA repository secret.'
             exit 1
           fi
 
@@ -40,7 +40,7 @@ jobs:
           repository: SiyanWang-uconn/extreme-event-attribution
           ref: main
           path: target
-          ssh-key: ${{ secrets.PNW_CODE_SYNC_DEPLOY_KEY }}
+          ssh-key: ${{ secrets.SYNC_TO_EEA }}
           persist-credentials: true
 
       - name: Stage, commit, and push the code changes
@@ -48,6 +48,7 @@ jobs:
         run: |
           python3 source/.github/scripts/sync_pnw_code.py source target
           if git -C target diff --cached --quiet; then
+            git -C target push --dry-run origin HEAD:refs/heads/main
             echo 'The target folder is already up to date.'
             exit 0
           fi
