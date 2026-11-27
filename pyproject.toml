@@ -1,6 +1,6 @@
 [project]
 name = "wcrp-common-attribution-assessment"
-version = "0.0.0"
+version = "0.1.0"
 description = "Python project scaffold for the WCRP common attribution assessment."
 readme = "README.md"
 authors = [
