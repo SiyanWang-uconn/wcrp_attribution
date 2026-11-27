@@ -20,6 +20,16 @@ require access to the remote data source. `make report-smith` requires the local
 Python report builder in `Code/smith_reproduce/documentation/` and `pdflatex`.
 The Markdown report is available in that directory after cloning.
 
+## Updating the PNW code mirror
+
+Edit `Code/` here, stage the intended files by path, commit, and push to `main`.
+The **Sync WCRP PNW code** workflow mirrors the tracked files to
+[`WCRP_PNW_heatwave_2021/`](https://github.com/SiyanWang-uconn/extreme-event-attribution/tree/main/WCRP_PNW_heatwave_2021),
+excluding `.bak` files. Make code changes in this repository. The local
+checkout of `extreme-event-attribution` can then be refreshed with `git pull --ff-only`.
+Check the workflow run in the **Actions** tab. Use **Run workflow** on `main`
+when you need to sync the current snapshot again.
+
 ## Development
 
 - Runtime and development dependencies are managed in `pyproject.toml` with `uv`.

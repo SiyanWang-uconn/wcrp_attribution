@@ -1,0 +1,60 @@
+name: Sync WCRP PNW code
+
+on:
+  push:
+    branches: [main]
+    paths: ['Code/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-wcrp-pnw-code
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check deploy key configuration
+        env:
+          SYNC_DEPLOY_KEY: ${{ secrets.PNW_CODE_SYNC_DEPLOY_KEY }}
+        run: |
+          if [[ -z "$SYNC_DEPLOY_KEY" ]]; then
+            echo '::error::Configure the PNW_CODE_SYNC_DEPLOY_KEY repository secret.'
+            exit 1
+          fi
+
+      - name: Check out latest WCRP main
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: main
+          path: source
+          persist-credentials: false
+
+      - name: Check out target main
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          repository: SiyanWang-uconn/extreme-event-attribution
+          ref: main
+          path: target
+          ssh-key: ${{ secrets.PNW_CODE_SYNC_DEPLOY_KEY }}
+          persist-credentials: true
+
+      - name: Stage, commit, and push the code changes
+        shell: bash
+        run: |
+          python3 source/.github/scripts/sync_pnw_code.py source target
+          if git -C target diff --cached --quiet; then
+            echo 'The target folder is already up to date.'
+            exit 0
+          fi
+          source_commit=$(git -C source rev-parse HEAD)
+          git -C target diff --cached --stat
+          git -C target -c user.name='github-actions[bot]' \
+            -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit -m 'chore: sync WCRP PNW 2021 heatwave code' \
+            -m "Mirror tracked additions, modifications, and deletions from WCRP Code/ into WCRP_PNW_heatwave_2021/, excluding editor backups. Source commit: $source_commit."
+          git -C target push origin HEAD:refs/heads/main
